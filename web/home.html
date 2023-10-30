@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Home</title>
+</head>
+<body>
+   <div style="text-align: center;">
+      <h3>Login successfully!!!</h3>
+      <div id="userProfile"></div>
+   </div>
+
+   <script>
+      console.log("hi omar");
+      
+      fetch('http://localhost:3000/user-data')
+        .then(response => response.json())
+        .then(data => {
+         console.log(data);
+          const userProfileDiv = document.getElementById('userProfile');
+          if (data.error) {
+            console.log("error here");
+            userProfileDiv.textContent = data.error;
+          } else {
+            // Display user data on the page
+            userProfileDiv.innerHTML = `
+               <img src="${data.photos[0].value}" alt="User's Profile Picture" />
+               <p>Display Name: ${data.displayName}</p>
+               <p>ID: ${data.id}</p>
+               <p>Email: ${data.emails[0].value}</p>
+            `;
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching user data:', error);
+        });
+    </script>
+</body>
+</html>
